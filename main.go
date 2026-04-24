@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"cloud.google.com/go/vertexai/genai"
+	"google.golang.org/genai"
 )
 
 //go:embed static/*
@@ -70,14 +70,20 @@ func fetchGitHubData() string {
 
 func main() {
 	ctx := context.Background()
-	client, err := genai.NewClient(ctx, projectID, location)
+
+	// New Google GenAI SDK Client
+	client, err := genai.NewClient(ctx, &genai.ClientConfig{
+		Project:  projectID,
+		Location: location,
+		Backend:  genai.BackendVertexAI,
+	})
 	if err != nil {
 		log.Fatalf("failed to create genai client: %v", err)
 	}
-	defer client.Close()
 
-	model := client.GenerativeModel(modelName)
-	model.SetTemperature(0.2)
+	config := &genai.GenerateContentConfig{
+		Temperature: genai.Ptr(float32(0.2)),
+	}
 
 	// API Endpoint
 	http.HandleFunc("/api/grunt", func(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +107,9 @@ func main() {
 		}
 
 		fullPrompt := fmt.Sprintf("%s\n\nUser: %s\nCaveman:", cavemanInstruction, prompt)
-		resp, err := model.GenerateContent(ctx, genai.Text(fullPrompt))
+		
+		// Using the new SDK GenerateContent method
+		resp, err := client.Models.GenerateContent(ctx, modelName, genai.Text(fullPrompt), config)
 		if err != nil {
 			log.Printf("Error generating content: %v", err)
 			http.Error(w, "Gemini broken", http.StatusInternalServerError)
@@ -113,12 +121,19 @@ func main() {
 			return
 		}
 
-		reply := fmt.Sprintf("%v", resp.Candidates[0].Content.Parts[0])
+		// Correctly access the response text in the new SDK
+		reply := ""
+		for _, part := range resp.Candidates[0].Content.Parts {
+			if part.Text != "" {
+				reply += part.Text
+			}
+		}
+
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(map[string]string{"reply": reply})
 	})
 
-	// Route individual pages to their HTML files
+	// Route individual pages
 	pages := map[string]string{
 		"/":            "static/index.html",
 		"/about":       "static/about.html",
@@ -128,10 +143,9 @@ func main() {
 	}
 
 	for path, file := range pages {
-		path, file := path, file // captured for closure
+		path, file := path, file
 		http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
 			if r.URL.Path != path {
-				// Fallback to static file server for assets
 				http.FileServer(http.FS(staticFiles)).ServeHTTP(w, r)
 				return
 			}
@@ -145,7 +159,6 @@ func main() {
 		})
 	}
 
-	// Serve the rest of static files (CSS, JS, manifest, etc.)
 	http.Handle("/static/", http.FileServer(http.FS(staticFiles)))
 	http.Handle("/manifest.json", http.FileServer(http.FS(staticFiles)))
 	http.Handle("/sw.js", http.FileServer(http.FS(staticFiles)))
@@ -154,6 +167,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-	fmt.Printf("Caveman serving on port %s...\n", port)
+	fmt.Printf("Caveman serving on port %s (using modern google.golang.org/genai)...\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
 }

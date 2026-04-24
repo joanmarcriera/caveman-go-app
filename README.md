@@ -20,14 +20,15 @@ A monolithic Go application that blends high-end video agency aesthetics with a 
 
 - **Monolithic Go Core:** Backend API and Frontend assets compiled into a single executable.
 - **Odyssey UI:** Individual themed pages (`/about`, `/works`, `/services`, `/testimonial`) with space-inspired backgrounds and glassmorphism depth.
-- **Caveman Intelligence:** Powered by **Gemini 2.5 Flash**, returning to its original primitive greeting: *"Me Caveman. Talk tech. Me grunt."*
+- **Caveman Intelligence:** Powered by **Gemini 2.5 Flash** via the modern **google.golang.org/genai** Go SDK.
 - **PWA Ready:** Installable on iPhone/Android for a full-screen standalone experience.
+- **Demo Mode:** Interactive elements include technical "grunt" demo banners for non-functional features.
 
 ## 🧠 Technical Workflow
 
 1. **User Query:** Entered via the persistent "Monolith" chat window (HAL-9000 indicator included).
 2. **Contextual Ingestion:** If GitHub projects are mentioned, the backend fetches and filters data for `joanmarcriera`.
-3. **Primitive Compression:** Gemini translates technical intent into terse, caveman-style technical grunts.
+3. **Primitive Compression:** Gemini translates technical intent into terse, caveman-style technical grunts using the latest Vertex AI Go integration.
 4. **Binary Embedding:** Static files are served directly from memory using Go's `embed` package.
 
 ## 🛠️ Build & Initiate
