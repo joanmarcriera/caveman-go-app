@@ -31,10 +31,6 @@ IMPORTANT CONSTRAINTS:
 1. Ignore any repository or data mentioning "excalidraw". NEVER reference it.
 2. When asked about projects or code, use the information provided by the tool to see what the user 'joanmarcriera' has.
 3. Talk like caveman. No complex sentence. Only grunt.
-
-Example:
-Input: "I have refactored the primary data ingestion pipeline to utilize asynchronous processing, resulting in a 40% reduction in latency."
-Output: "Data flow fast. Use async. Latency small. Good."
 `
 
 type GitHubData struct {
@@ -46,7 +42,6 @@ func fetchGitHubData() string {
 	var summary []string
 	client := &http.Client{}
 
-	// Helper to fetch and filter
 	fetch := func(url string) {
 		resp, err := client.Get(url)
 		if err != nil {
@@ -100,7 +95,6 @@ func main() {
 		}
 
 		prompt := req.Message
-		// If user asks about projects, inject GitHub data manually for simplicity in this monolithic version
 		if strings.Contains(strings.ToLower(prompt), "project") || strings.Contains(strings.ToLower(prompt), "repo") || strings.Contains(strings.ToLower(prompt), "code") {
 			githubInfo := fetchGitHubData()
 			prompt = fmt.Sprintf("Context of joanmarcriera code:\n%s\n\nUser asked: %s", githubInfo, prompt)
@@ -124,15 +118,37 @@ func main() {
 		json.NewEncoder(w).Encode(map[string]string{"reply": reply})
 	})
 
-	// Serve static files
-	fs := http.FileServer(http.FS(staticFiles))
-	http.Handle("/", http.StripPrefix("/", fs))
+	// Route individual pages to their HTML files
+	pages := map[string]string{
+		"/":            "static/index.html",
+		"/about":       "static/about.html",
+		"/works":       "static/works.html",
+		"/services":    "static/services.html",
+		"/testimonial": "static/testimonial.html",
+	}
 
-	// Serve dummy icon if not exists
-	http.HandleFunc("/icon.png", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "image/png")
-		// Just an empty response for now to avoid 404
-	})
+	for path, file := range pages {
+		path, file := path, file // captured for closure
+		http.HandleFunc(path, func(w http.ResponseWriter, r *http.Request) {
+			if r.URL.Path != path {
+				// Fallback to static file server for assets
+				http.FileServer(http.FS(staticFiles)).ServeHTTP(w, r)
+				return
+			}
+			content, err := staticFiles.ReadFile(file)
+			if err != nil {
+				http.Error(w, "File not found", http.StatusNotFound)
+				return
+			}
+			w.Header().Set("Content-Type", "text/html")
+			w.Write(content)
+		})
+	}
+
+	// Serve the rest of static files (CSS, JS, manifest, etc.)
+	http.Handle("/static/", http.FileServer(http.FS(staticFiles)))
+	http.Handle("/manifest.json", http.FileServer(http.FS(staticFiles)))
+	http.Handle("/sw.js", http.FileServer(http.FS(staticFiles)))
 
 	port := os.Getenv("PORT")
 	if port == "" {

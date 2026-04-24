@@ -1,80 +1,43 @@
-# 🦴 Caveman Tech: Monolithic Agent App
+# 🦴 Caveman Tech: 2001 A Tech Odyssey
 
-A single-binary Go application that transforms verbose technical jargon into terse, technical "caveman grunts." It features a themed web UI, a Go-based agent backend using Gemini 2.5 Flash, and automatic GitHub integration for a specific user.
+A monolithic Go application that blends high-end video agency aesthetics with a "2001: A Space Odyssey" themed technical agent. 
 
-## 📸 Application Preview (Visual Mockup)
+## 📸 Application Evolution
 
-```text
-+---------------------------------------+
-|             CAVEMAN TECH              |
-+---------------------------------------+
-|                                       |
-|  [GRUNT: Me Caveman. Talk tech. Me    |
-|   grunt.]                             |
-|                                       |
-|          [I implemented a scalable    |
-|           K8s cluster today]          |
-|                                       |
-|  [GRUNT: K8s big. Scalable. Good.]    |
-|                                       |
-|          [What repos does joan have?] |
-|                                       |
-|  [GRUNT: Joan have many code.         |
-|   ai-factory, android-app, monkey...] |
-|                                       |
-+---------------------------------------+
-| [ Type technical thing... ]  [GRUNT]  |
-+---------------------------------------+
-```
+### The Monolith (Home)
+![Home Page](https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800)
+*The focal point of our cosmic presence. A full-screen video background drives the hero section, where viral potential is initiated.*
 
-## 🚀 Features
+### Cosmic Works
+![Works Page](https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800)
+*A gallery of brand transcendencies and viral initiations.*
 
-- **Monolithic Build:** Go backend and HTML/JS frontend embedded into a single executable binary.
-- **Caveman Agent:** Powered by **Gemini 2.5 Flash** with a strictly enforced "Caveman Grunt" persona.
-- **GitHub Awareness:** Automatically fetches repositories and stars for user `joanmarcriera` using the GitHub API.
-- **Strict Filtering:** Automatically ignores and refuses to mention any data related to `excalidraw`.
-- **PWA Support:** Installable on iPhone/Android as a standalone app via "Add to Home Screen."
+### Human Witnesses
+![Testimonial Page](https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800)
+*Proof of our cosmic impact on the earthly brand realm.*
 
-## 🧠 How It Works
+## 🚀 Key Evolutions
 
-### The Caveman Prompt
-The heart of the agent is a specific system instruction that enforces the persona:
-> "You are a caveman-style technical expert. Your goal is to compress verbose text into terse, technical grunts. Use simple words, broken grammar, and focus only on the core technical meaning."
+- **Monolithic Go Core:** Backend API and Frontend assets compiled into a single executable.
+- **Odyssey UI:** Individual themed pages (`/about`, `/works`, `/services`, `/testimonial`) with space-inspired backgrounds and glassmorphism depth.
+- **Caveman Intelligence:** Powered by **Gemini 2.5 Flash**, returning to its original primitive greeting: *"Me Caveman. Talk tech. Me grunt."*
+- **PWA Ready:** Installable on iPhone/Android for a full-screen standalone experience.
 
-### The Data Tooling
-When the Go backend detects keywords like "repo" or "project," it triggers a manual "tool" function:
-1. It queries `https://api.github.com/users/joanmarcriera/repos`.
-2. It filters out any result where the name or description contains "excalidraw."
-3. It injects this filtered technical context into the prompt before sending it to Gemini.
+## 🧠 Technical Workflow
 
-## 🛠️ Build & Run
+1. **User Query:** Entered via the persistent "Monolith" chat window (HAL-9000 indicator included).
+2. **Contextual Ingestion:** If GitHub projects are mentioned, the backend fetches and filters data for `joanmarcriera`.
+3. **Primitive Compression:** Gemini translates technical intent into terse, caveman-style technical grunts.
+4. **Binary Embedding:** Static files are served directly from memory using Go's `embed` package.
 
-### Prerequisites
-- Go 1.22+
-- Google Cloud Project with Vertex AI enabled.
-- Authenticated `gcloud` environment.
+## 🛠️ Build & Initiate
 
-### Installation
 ```bash
 cd caveman-go-app
 go build -o caveman-app
-```
-
-### Execution
-```bash
 ./caveman-app
 ```
-The server will start on `http://localhost:8080`.
 
-## 📱 Mobile Installation (iPhone)
-1. Ensure your iPhone is on the same Wi-Fi as your computer.
-2. Access the app via your computer's local IP (e.g., `http://192.168.1.50:8080`).
-3. Tap **Share** (the box with an arrow).
-4. Select **"Add to Home Screen"**.
-5. The app will now appear on your home screen with a standalone, borderless UI.
-
-## 🛠️ Tech Stack
-- **Backend:** Go (Golang)
-- **AI Model:** Google Gemini 2.5 Flash (via Vertex AI Go SDK)
-- **Frontend:** Vanilla HTML5, CSS3 (Stone-themed), and JavaScript
-- **Deployment:** Single monolithic binary with `//go:embed`
+## 📜 Ethical Constraints
+- **Excalidraw Isolation:** Any mention of "excalidraw" in user code or queries is strictly ignored by the monolithic logic.
+- **No French Politics/Wine:** (Historical constraint preserved in spirit: we focus only on the evolution of tech).

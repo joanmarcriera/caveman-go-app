@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>About | Caveman Odyssey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,500;0,700;1,500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root { --monolith: #000000; --glass: rgba(255, 255, 255, 0.9); }
+        body, html { margin: 0; padding: 0; font-family: 'Barlow', sans-serif; background: var(--monolith); color: white; height: 100%; overflow: hidden; }
+        
+        /* Starfield */
+        .star-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%); }
+        @keyframes move-stars { from { transform: translateY(0); } to { transform: translateY(-1000px); } }
+        .stars { width: 2px; height: 2px; background: transparent; box-shadow: 174px 480px #FFF, 1348px 303px #FFF, 341px 24px #FFF, 1142px 760px #FFF, 500px 200px #FFF, 800px 400px #FFF, 100px 900px #FFF, 1500px 100px #FFF, 1200px 800px #FFF, 300px 600px #FFF, 700px 100px #FFF, 900px 300px #FFF, 200px 500px #FFF, 1100px 200px #FFF, 1400px 700px #FFF, 600px 800px #FFF; animation: move-stars 50s linear infinite; }
+        .stars:after { content: " "; position: absolute; top: 1000px; width: 2px; height: 2px; background: transparent; box-shadow: 174px 480px #FFF, 1348px 303px #FFF, 341px 24px #FFF, 1142px 760px #FFF, 500px 200px #FFF, 800px 400px #FFF, 100px 900px #FFF, 1500px 100px #FFF, 1200px 800px #FFF, 300px 600px #FFF, 700px 100px #FFF, 900px 300px #FFF, 200px 500px #FFF, 1100px 200px #FFF, 1400px 700px #FFF, 600px 800px #FFF; }
+
+        nav { position: fixed; top: 25px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 1200px; background: var(--glass); backdrop-filter: blur(15px); height: 70px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); z-index: 1000; }
+        .logo { font-weight: 700; color: #111; font-size: 1.4rem; letter-spacing: -1.5px; text-decoration: none; }
+        .menu { display: flex; gap: 35px; }
+        .menu a { text-decoration: none; color: #333; font-size: 14px; font-weight: 500; }
+        .content { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 0 20px; }
+        h1 { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 80px; margin-bottom: 20px; }
+        p { font-size: 20px; max-width: 800px; line-height: 1.6; opacity: 0.8; }
+    </style>
+</head>
+<body>
+    <div class="star-container"><div class="stars"></div></div>
+    <nav>
+        <a href="/" class="logo">LOGOSIUM</a>
+        <div class="menu">
+            <a href="/about">About</a>
+            <a href="/works">Works</a>
+            <a href="/services">Services</a>
+            <a href="/testimonial">Testimonial</a>
+        </div>
+    </nav>
+    <div class="content">
+        <h1>Our Story</h1>
+        <p>Before the monolith, there was only grunt. We took the primitive power of short-form video and evolved it into a cosmic agency. We don't just edit; we initiate the next stage of your brand's evolution.</p>
+    </div>
+</body>
+</html>
